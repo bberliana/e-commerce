@@ -18,11 +18,7 @@ k. Melakukan git add, commit, dan push untuk menyimpan semua perubahan yang tela
 
 
 4. Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
-Baterai Terintegrasi: Django menyediakan banyak fitur bawaan seperti sistem otentikasi, pengelolaan database, routing URL, dan banyak lagi. Ini memudahkan pemula karena mereka tidak perlu mengonfigurasi semuanya dari awal.
-Konvensi di Atas Konfigurasi: Django mengutamakan konvensi yang disederhanakan, sehingga pengembang baru tidak perlu bingung dengan berbagai konfigurasi rumit untuk memulai.
-Dokumentasi Lengkap: Django memiliki dokumentasi yang sangat baik dan ramah untuk pemula, yang membantu mereka memahami konsep-konsep utama dengan cepat.
-Keamanan Bawaan: Django datang dengan praktik keamanan yang kuat, sehingga pengembang baru dapat belajar cara mengamankan aplikasi mereka dari awal.
-Penggunaan di Dunia Nyata: Django digunakan oleh banyak perusahaan besar seperti Instagram dan Pinterest, memberikan kepercayaan bahwa belajar Django adalah langkah yang berguna dalam dunia kerja.
+Django menyediakan banyak fitur, sehingga memudahkan pengembang karena mereka tidak perlu mengonfigurasi semuanya dari awal. Django juga memiliki konvensi yang lebih sederhana, serta dokumentasi yang mudah untuk dipahami. Di dunia nyata juga, Django banyak digunakan oleh perusahaan-perusahaan besar seperti Instagram dan Pinterest, yang membuktikan bahwa framework ini tepat untuk dipelajari karena akan bermanfaat di dunia pekerjaan.
 
 5. Mengapa model pada Django disebut sebagai ORM?
 Model pada Django disebut sebagai ORM (Object-Relational Mapping) karena membantu kita untuk menghubungkan objek di dalam kode Python dengan tabel dalam database, sehingga tidak membutuhkan  SQL secara langsung. Django juga dapat memetakan kelas Python ke tabel database dan atribut kelas ke kolom tabel secara otomatis, dan memungkinkan aplikasi berinteraksi dengan berbagai jenis database tanpa harus menulis ulang kode saat mengganti database yang digunakan.
