@@ -24,3 +24,4 @@ Django menyediakan banyak fitur, sehingga memudahkan pengembang karena mereka ti
 Model pada Django disebut sebagai ORM (Object-Relational Mapping) karena membantu kita untuk menghubungkan objek di dalam kode Python dengan tabel dalam database, sehingga tidak membutuhkan  SQL secara langsung. Django juga dapat memetakan kelas Python ke tabel database dan atribut kelas ke kolom tabel secara otomatis, dan memungkinkan aplikasi berinteraksi dengan berbagai jenis database tanpa harus menulis ulang kode saat mengganti database yang digunakan.
 
 Maka dari itu, ORM sangat membantu dalam mempercepat pengembangan aplikasi, karena mengurangi kompleksitas berinteraksi langsung dengan database.
+a
