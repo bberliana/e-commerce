@@ -73,26 +73,39 @@
     </div>
 
     {% if not product_entries %}
-    <p>Belum ada data product pada bag shopper.</p>
+    <h1 class="h1">Belum ada data product pada bag shopper.</h1>
     {% else %}
     <table>
     <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Description</th>
-        <th>Size</th>
-        <th>Color</th>
+        <h5 class="h5">Name</h5>
+        <h5 class="h5">Price</h5>
+        <h5 class="h5">Description</h5>
+        <h5 class="h5">Size</h5>
+        <h5 class="h5">Color</h5>
     </tr>
 
     {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
     {% endcomment %} 
     {% for product_entry in product_entries %}
     <tr>
-        <td>{{product_entry.name}}</td>
-        <td>{{product_entry.price}}</td>
-        <td>{{product_entry.description}}</td>
-        <td>{{product_entry.size}}</td>
-        <td>{{product_entry.color}}</td>
+        <div class="border">
+        <h1 class="h1">Product Details</h1>
+
+        <h5 class="h5">Name: </h5>
+        <p class="p1">{{product_entry.name}}</p>
+
+        <h5 class="h5">Price: </h5>
+        <p class="p1">{{product_entry.price}}<p>
+
+        <h5 class="h5">Description: </h5>
+        <p class="p1">{{product_entry.description}}<p>
+
+        <h5 class="h5">Size: </h5>
+        <p class="p1">{{product_entry.size}}<p>
+
+        <h5 class="h5">Color: </h5>
+        <p class="p1">{{product_entry.color}}<p>
+        </div>
     </tr>
     {% endfor %}
     </table>
