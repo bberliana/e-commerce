@@ -11,7 +11,7 @@
     <style>
         body
         {
-            background-color: lightblue;
+            background-color: #add8e6;
         }
         .center {
             font-family: Arial, Helvetica, sans-serif;
@@ -44,6 +44,12 @@
             display: block;
             max-width: 100%;
             margin-top: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: solid 1px #777; padding: 5px;
+            background: #226278; color:white; 
         }
     </style>
 </head>
@@ -101,11 +107,11 @@
     </tr>
 
     <tr>
-        <h5 class="h5">Name</h5>
-        <h5 class="h5">Price</h5>
-        <h5 class="h5">Description</h5>
-        <h5 class="h5">Size</h5>
-        <h5 class="h5">Color</h5>
+        <td class="table">Name</td>
+        <td class="table">Price</td>
+        <td class="table">Description</td>
+        <td class="table">Size</td>
+        <td class="table">Color</td>
     </tr>
     {% endfor %}
     </table>
