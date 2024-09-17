@@ -53,3 +53,35 @@ Django menyediakan banyak fitur, sehingga memudahkan pengembang karena mereka ti
 
 # 5. Mengapa model pada Django disebut sebagai ORM?  
 Model pada Django disebut sebagai ORM (Object-Relational Mapping) karena membantu kita untuk menghubungkan objek di dalam kode Python dengan tabel dalam database, sehingga tidak membutuhkan  SQL secara langsung. Django juga memungkinkan aplikasi untuk berinteraksi dengan berbagai jenis database tanpa harus menulis ulang kode saat mengganti database yang digunakan. Maka dari itu, ORM sangat mempercepat pengembangan aplikasi, karena mengurangi kompleksitas berinteraksi langsung dengan database.
+
+# Tugas 3 PBP
+
+# 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+
+# 2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+Menurut saya JSON lebih baik karena sintaksnya lebih sederhana sehingga lebih mudah untuk dipahami, dan biasanya memiliki ukuran file yang lebih kecil dibandingkan XML. JSON juga didukung oleh JavaScript, sehingga umum digunakan di web development. Maka dari itu, JSON juga lebih populer dibandingkan XML.
+
+# 3. Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+form.is_valid() digunakan pada fungsi create_product_entry di file views.py untuk memvalidasi input dari form dengan memastikan bahwa tipe data yang diinput sesuai dengan permintaan pengemabang. Hal ini digunakan untuk memastikan integritas data sehingga hanya data yang valid yang akan disimpan, dan untuk mengantisipasi kesalahan input data dari user sebelum mereka submit data tersebut.
+
+# 4. Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+Cross-Site Request Forgery (csrf) token digunakan untuk mengenerasi token yang unik untuk memastikan bahwa request yang dipanggil berasal dari user yang membuka halaman web tersebut, sehingga memblokir unauthorized request. Hal ini dibutuhkan untuk menghindari CSRF attack, dimana seorang penyerang memanfaatkan user yang sedang logged in dengan meng-submit malicious request. Tanpa csrf token, penyerang dapat memanfaatkan user yang sedang logged-in karena server sudah 'trust' request dari user tersebut. 
+
+# 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+     a. Membuat template dasar di file base.html agar halaman web yang lainnya dapat memuat data secara dinamis, kemudian mengatur variable TEMPLATES di file settings.py agar file base.html terdeteksi sebagai template.
+     b. Mengaplikasikan template di file main.html dengan cara menambahkan baris kode  {% extends 'base.html' %}.
+     c. Import Universally Unique Identifier (UUID) di file models.py untuk mengubah primary key agar tidak sekuensial, sehingga menjadi lebih aman karena lebih sulit untuk ditebak. Setelah import maka dilakukan migrasi model.
+     d. Membuat file forms.py untuk membuat form input data name, price, description, size, dan color untuk input data product baru.
+     e. Menambahkan 2 import di file views.py: fungsi render yang berfungsi untuk menampilkan data sesuai bentuk template pada suatu halaman web, dan fungsi redirect untuk membawa user ke URL yang ditentukan.
+     f. Membuat fungsi create_product_entry yang menerima parameter request di file views.py. Fungsi ini akan menghasilkan form yang akan menambahkan data product saat user melakukan save. 
+     g. Menambahkan product_entries pada fungsi show_main yang akan mengambil semua objek/data pada Products dengan Product.objects.all(). 
+     h. Import fungsi create_product_entry di file urls.py, kemudian menambahkan path ke fungsi create_product_entry ke variabel urlpatterns.
+     i. Membuat file HTML create_product_entry.html untuk menampilkan fields form pada forms.py sebagai tabel dan menampilkan tombol submit yang akan mengirimkan request ke view create_product_entry(request)
+     j. Menambahkan tampilan data pada file main.html untuk menampilkan pesan "Belum ada data product pada bag shopper." jika belum ada input data, dan menampilkan data dalam bentuk tabel jika sudah ada input data. Menambahkan juga tampilan tombol "Add New Product Entry" yang akan redirect ke halaman form.
+     k. Menambahkan 2 import di file views.py: HttpResponse dan Serializer untuk translate objek model menjadi format XML.  
+     l. Menambahkan fungsi show_xml(request) yang akan menampilkan data dalam bentuk XML. Kemudian import fungsi tersebut di file urls.py, dan menambahkan path URL ke fungsi tersebut di urlpatterns.
+     m. Melakukan hal yang sama dengan fungsi show_json(request), untuk menampilkan data dalam bentuk JSON.
+     n. Menambahkan parameter id dan filter(pk=id) pada pengambilan data dengan Product.objects di keuda fungsi show_xml dan show_json agar kita bisa memilih objek (input data) yang ingin dilihat sesuai dengan IDnya.
+     o. Melakukan git add, commit, dan push untuk menyimpan perubahan yang telah dibuat ke repository di github.
+     p. Menjalankan server dengan command "python manage.py runserver", kemudian membuka aplikasi Postman.
+     q. Membuat request baru menggunakan method GET dan memasukkan URL http://localhost:8000/xml/, http://localhost:8000/json/, http://localhost:8000/xml/[id], dan http://localhost:8000/json/[id] untuk menampilkan seluruh objek dalam bentuk XML dan JSON, serta objek dengan ID tertentu dalam bentuk XML dan JSON. 
