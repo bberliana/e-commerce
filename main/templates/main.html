@@ -76,14 +76,6 @@
     <h1 class="h1">Belum ada data product pada bag shopper.</h1>
     {% else %}
     <table>
-    <tr>
-        <h5 class="h5">Name</h5>
-        <h5 class="h5">Price</h5>
-        <h5 class="h5">Description</h5>
-        <h5 class="h5">Size</h5>
-        <h5 class="h5">Color</h5>
-    </tr>
-
     {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
     {% endcomment %} 
     {% for product_entry in product_entries %}
@@ -106,6 +98,14 @@
         <h5 class="h5">Color: </h5>
         <p class="p1">{{product_entry.color}}<p>
         </div>
+    </tr>
+
+    <tr>
+        <h5 class="h5">Name</h5>
+        <h5 class="h5">Price</h5>
+        <h5 class="h5">Description</h5>
+        <h5 class="h5">Size</h5>
+        <h5 class="h5">Color</h5>
     </tr>
     {% endfor %}
     </table>
