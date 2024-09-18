@@ -57,9 +57,10 @@ Model pada Django disebut sebagai ORM (Object-Relational Mapping) karena membant
 # Tugas 3 PBP
 
 # 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+Data delivery memastikan bahwa data bisa berjalan dengan baik antara client, server, dan database. Hal ini memungkinkan adanya pertukaran data secara real-time, memastikan bahwa data yang ditransfer tetap aman dengan adanya enkripsi, dan meningkatkan efisiensi pengiriman data.
 
 # 2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
-Menurut saya JSON lebih baik karena sintaksnya lebih sederhana sehingga lebih mudah untuk dipahami, dan biasanya memiliki ukuran file yang lebih kecil dibandingkan XML. JSON juga didukung oleh JavaScript, sehingga umum digunakan di web development. Maka dari itu, JSON juga lebih populer dibandingkan XML.
+Menurut saya JSON lebih baik karena sintaksnya lebih sederhana sehingga lebih mudah untuk dipahami, dan biasanya memiliki ukuran file yang kecil dibandingkan XML. JSON juga didukung oleh JavaScript, sehingga umum digunakan di web development. Maka dari itu, JSON juga lebih populer dibandingkan XML.
 
 # 3. Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
 form.is_valid() digunakan pada fungsi create_product_entry di file views.py untuk memvalidasi input dari form dengan memastikan bahwa tipe data yang diinput sesuai dengan permintaan pengemabang. Hal ini digunakan untuk memastikan integritas data sehingga hanya data yang valid yang akan disimpan, dan untuk mengantisipasi kesalahan input data dari user sebelum mereka submit data tersebut.
@@ -85,3 +86,9 @@ Cross-Site Request Forgery (csrf) token digunakan untuk mengenerasi token yang u
      o. Melakukan git add, commit, dan push untuk menyimpan perubahan yang telah dibuat ke repository di github.
      p. Menjalankan server dengan command "python manage.py runserver", kemudian membuka aplikasi Postman.
      q. Membuat request baru menggunakan method GET dan memasukkan URL http://localhost:8000/xml/, http://localhost:8000/json/, http://localhost:8000/xml/[id], dan http://localhost:8000/json/[id] untuk menampilkan seluruh objek dalam bentuk XML dan JSON, serta objek dengan ID tertentu dalam bentuk XML dan JSON. 
+
+# screenshot 
+![alt text](<Screenshot 2024-09-18 at 08.42.39-1.png>)
+![alt text](<Screenshot 2024-09-18 at 08.43.03.png>)
+![alt text](<Screenshot 2024-09-18 at 08.43.25.png>)
+![alt text](<Screenshot 2024-09-18 at 08.43.36.png>)
