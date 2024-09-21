@@ -120,6 +120,12 @@
         </a>
     </div>
 
+    <a href="{% url 'main:logout' %}">
+        <button>Logout</button>
+     </a>
+
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
+
 </body>
 </html>
 {% endblock content %}
