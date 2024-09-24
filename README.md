@@ -92,3 +92,67 @@ Cross-Site Request Forgery (csrf) token digunakan untuk mengenerasi token yang u
 ![alt text](<Screenshot 2024-09-18 at 08.43.03.png>)
 ![alt text](<Screenshot 2024-09-18 at 08.43.25.png>)
 ![alt text](<Screenshot 2024-09-18 at 08.43.36.png>)
+
+# Tugas 4 PBP
+
+# 1. Apa perbedaan antara HttpResponseRedirect() dan redirect()
+Fungsi HttpResponseRedirect() mengembalikan objek HttpResponse yang akan redirect ke URL tertentu, sesuai dengan parameter yang telah ditetapkan. Sedangkan redirect() merupakan fungsi yang lebih abstrak karena dapat menerima URL sebagai parameter, serta menerima nama dari view atau objek model yang akan otomatis ditangani URL-nya oleh Django.
+
+# 2. Jelaskan cara kerja penghubungan model Product dengan User!
+Dengan modul django.contrib.auth.models, kemudian potongan kode berikut pada class Product:
+user = models.ForeignKey(User, on_delete=models.CASCADE)
+Akan menghubungkan satu entry product dengan satu user, sehingga setiap product entry pasti terasosiasikan dengan seorang user.
+
+Kemudian potongan kode product_entries = Product.objects.filter(user=request.user) berguna untuk hanya menampilkan product entry yang terasosiasi dengan user yang sedang login. Sistem akan mengetahui bahwa objek product entry tertentu milik user yang sedang login karena adanya kode 'name': request.user.username.
+
+# 3. Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
+Authentication merupakan proses untuk mengenali identitas pengguna, biasanya melalui username dan password. Sedangkan authorization merupakan proses untuk menentukan hak akses pengguna terhadap fitur/data pada web, biasanya sesuai dengan peran pengguna (user atau admin). 
+
+Saat pengguna login, mereka akan memasukkan username dan password mereka untuk diverifikasi oleh Django. Jika valid, maka pengguna diautentikasi dan sesi dimulai sesuai authorization yang diberikan kepada pengguna tersebut.
+
+Django mengimplementasikan authentication ketika pengguna melakukan login, dimana kredensial pengguna akan diverifikasi dan dipastikan cocok dengan data yang ada di database. Hal ini dilakukan dengan modul django.contrib.auth, serta method authenticate() dan login() Kemudian, Django akan melakukan authorization dengan mengecek apakah pengguna memiliki izin untuk melakukan aksi/mengakses data tertentu. Hal ini dilakukan menggunakan sistem permissions oleh Django, dimana setiap model atau view dapat diatur dengan izin tertentu yang membatasi akses pengguna sesuai dengan perannya.
+
+# 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
+Ketika pengguna berhasil login, Django menyimpan session data pada server dan menyimpan session ID pada cookie di browser pengguna. Setiap kali pengguna melakukan request baru, session ID tersebut akan dikirim kembali ke server untuk mengidentifikasi pengguna yang login.
+
+Selain untuk login, cookies juga dapat digunakan untuk menyimpan preferensi setting pengguna, melacak aktivitas pengguna, dan sebagai token autentikasi dalam Single Sign-On (SSO).
+
+Tidak semua cookies aman digunakan, karena cookies juga dapat dieksploitasi melalui serangan Cross-Site Scripting (XSS) atau Session Hijacking. Cookies yang tidak diamankan juga dapat digunakan oleh penyerang untuk mencuri informasi sesi atau melakukan session fixation attacks.
+
+# 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+     a. Memastikan direktori sudah sesuai dengan yang ada di tutorial, dan mengubah nama file deploy.yml menjadi push.yaml
+     b. Menyalakan virtual environment dan membuat fitur registrasi agar pengguna dapat membuat akun dengan username dan password
+     c. Fitur registrasi dibuat dengan import UserCreationForm dan messages, kemudian membuat fungsi register di file views.py, kemudian membuat file register.html untuk mengatur tampilan halaman registrasi untuk pengguna. Kemudian import fungsi registrasi di file urls.py dan mengatur path url menuju fungsi tersebut di urlpatterns.
+     d. Sama seperti langkah sebelumnya, saya membuat fitur login dengan import AuthenticationForm dan login di file views.py, kemudian membuat fungsi login di file views.py, beserta file login.html untuk mengatur tampilan halaman login untuk pengguna. Kemudian import fungsi login di file urls.py dan mengatur path url menuju fungsi tersebut di urlpatterns.
+     e. Sama juga seperti kedua langkah sebelumnya, saya membuat fitur logout dengan import logout di file views.py, kemudian membuat fungsi logout di file views.py, dan menambahkan tombol logout di file main.html. Kemudian import fungsi logout di file urls.py dan mengatur path url menuju fungsi tersebut di urlpatterns.
+     f. Saya juga menambahkan restriksi pada halaman main web saya agar hanya user yang sudah diautentikasi yang dapat mengaksesnya. Hal ini dilakukan dengan import login_required pada file views.py, kemudian menambahkan kode @login_required(login_url='/login') di atas fungsi show_main di file yang sama.
+     g. Saya mencoba test fitur-fitur yang telah diimplementasi dengan cara membuat satu akun untuk test fitur registrasi, dan mencoba untuk login dan logout dengan akun tersebut.
+     h. Setelah fitur sudah berhasil diimplementasikan, saya menambahkan fitur untuk menampilkan waktu terakhir akun tersebut login dengan menggunakan cookies. 
+     i. Fitur tersebut ditambahkan dengan cara import HttpResponseRedirect, reverse, dan datetime di file views.py, kemudian menambahkan kedua baris kode berikut pada fungsi login, khususnya di blok if form.is_valid():
+          response = HttpResponseRedirect(reverse("main:show_main"))
+          response.set_cookie('last_login', str(datetime.datetime.now()))
+     j. Pada fungsi show_main juga ditambahkan kode berikut: 
+          'last_login': request.COOKIES['last_login'],
+     k. Dan pada fungsi logout juga ditambahkan kode berikut:
+          response = HttpResponseRedirect(reverse('main:login'))
+          response.delete_cookie('last_login')
+     l. Menambahkan kode di file main.html untuk menampilkan data waktu/sesi terakhir kali user login
+     m. Menghubungkan Product dengan user agar tampilan produk di web untuk setiap user sesuai dengan produk yang ditambahkan oleh user tersebut
+     n. Hal tersebut dilakukan dengan import User di file models.py kemudian menambahkan kode berikut di model Products:
+          user = models.ForeignKey(User, on_delete=models.CASCADE)
+     o. Kemudian menambahkan kode di fungsi create_product_entry di file views.py:
+          product_entry = form.save(commit=False)
+          product_entry.user = request.user
+          product_entry.save()
+     p. Mengubah juga potongan kode pada fungsi show_main menjadi sebagai berikut:
+          product_entries = Product.objects.filter(user=request.user)
+
+          context = {
+               'name': request.user.username,
+               ...
+          }
+     q. Kemudian save semua perubahan dan make migrations untuk migrasi model. Saat muncul error, saya menetapkan user yang telah diregistrasi sebelumnya sebagai default value dengan ID 1 untuk field user pada semua row database, kemudian dilakukan migrasi lagi.
+     r. Terakhir, menambah import OS di file settings.py dan mengubah variabel DEBUG menjadi sebagai berikut:
+          PRODUCTION = os.getenv("PRODUCTION", False)
+          DEBUG = not PRODUCTION
+     s. Menyimpan semua perubahan dan melakukan git add, commit, dan push untuk menyimpan perubahan juga di repository Github dan sekaligus push ke PWS.
