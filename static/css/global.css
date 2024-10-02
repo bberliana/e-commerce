@@ -1,25 +1,25 @@
-/* Global form style for inputs, textareas, and selects */
+/* global form style untuk input, textarea, dan select */
 .form-style form input, form textarea, form select {
     width: 100%;
     padding: 0.75rem;
-    border: 2px solid #d1d5db;  /* Adjusted for a light gray border */
-    border-radius: 0.375rem;  /* Slight rounding for consistent styling */
-    background-color: #f9fafb;  /* Light neutral background color for input fields */
-    color: #111827;  /* Darker text for better readability */
-    transition: all 0.2s ease-in-out;  /* Smoother transition for hover and focus */
+    border: 2px solid #d1d5db; 
+    border-radius: 0.375rem;  
+    background-color: #f9fafb; 
+    color: #111827;  
+    transition: all 0.2s ease-in-out; 
 }
 
 /* Focus state */
 .form-style form input:focus, form textarea:focus, form select:focus {
     outline: none;
-    border-color: #fe9d79;  /* Peachy border on focus to match theme */
-    box-shadow: 0 0 0 3px rgba(254, 157, 121, 0.3);  /* Subtle glow effect matching the theme */
-    background-color: #f3f4f6;  /* Light background change on focus for interaction feedback */
-}
+    border-color: #fe9d79;  
+    box-shadow: 0 0 0 3px rgba(254, 157, 121, 0.3);  
+    background-color: #f3f4f6;
+} 
 
-/* Button styling for submit buttons (login, register) */
+/* tampilan untuk tombol submit di halaman login dan register) */
 button[type="submit"] {
-    background-color: #fe9d79;  /* Primary peach color */
+    background-color: #fe9d79;  
     color: white;
     border: none;
     border-radius: 0.375rem;
@@ -29,17 +29,18 @@ button[type="submit"] {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* hover state */
 button[type="submit"]:hover {
-    background-color: #ff8362;  /* Slightly darker on hover */
-    transform: scale(1.05);  /* Interactive scaling on hover */
+    background-color: #ff8362;  
+    transform: scale(1.05); 
 }
 
-/* Form container styling */
+/* form container styling */
 .form-style {
     background-color: #ffffff;
     padding: 2rem;
     border-radius: 0.5rem;
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.05);  /* Subtle shadow for form depth */
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.05);  
     max-width: 500px;
     margin: auto;
 }

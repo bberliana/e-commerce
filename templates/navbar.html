@@ -3,12 +3,13 @@
 <nav class="bg-white shadow fixed top-0 left-0 z-40 w-full">
     <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-            <!-- Logo in a box spanning from the left edge, centered vertically -->
+            
+            <!-- logo -->
             <div class="flex items-center h-full">
                 <img src="{% static 'image/logo.png' %}" alt="Logo" class="h-40" />
             </div>
 
-            <!-- Navigation Links (hidden on mobile, shown on medium and larger screens) -->
+            <!-- navigation links -->
             <div class="hidden md:flex flex-1 justify-center space-x-8">
                 <a href="/" class="text-gray-800 hover:text-[#fe9d79] font-medium">Home</a>
                 <a href="/" class="text-gray-800 hover:text-[#fe9d79] font-medium">Products</a>
@@ -16,7 +17,7 @@
                 <a href="/" class="text-gray-800 hover:text-[#fe9d79] font-medium">Contact</a>
             </div>
 
-            <!-- User Authentication -->
+            <!-- user authentication -->
             <div class="hidden md:flex items-center ml-auto">
                 {% if user.is_authenticated %}
                     <span class="text-gray-800 mr-4">Welcome, {{ user.username }}</span>
@@ -33,7 +34,7 @@
                 {% endif %}
             </div>
 
-            <!-- Mobile Menu Button -->
+            <!-- menu button untuk mobile device -->
             <div class="md:hidden flex items-center">
                 <button class="mobile-menu-button">
                     <svg class="w-6 h-6 text-gray-800" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,16 +45,16 @@
         </div>
     </div>
 
-    <!-- Mobile Menu (hidden on large screens) -->
+    <!-- menu untuk mobile device -->
     <div class="mobile-menu hidden md:hidden px-4 w-full">
         <div class="pt-2 pb-3 space-y-1 mx-auto">
-            <!-- Navigation Links for Mobile -->
+            <!-- navigation links -->
             <a href="/" class="block text-gray-800 hover:text-[#fe9d79] font-medium py-2">Home</a>
             <a href="/" class="block text-gray-800 hover:text-[#fe9d79] font-medium py-2">Products</a>
             <a href="/" class="block text-gray-800 hover:text-[#fe9d79] font-medium py-2">About</a>
             <a href="/" class="block text-gray-800 hover:text-[#fe9d79] font-medium py-2">Contact</a>
 
-            <!-- User Authentication for Mobile -->
+            <!-- user authentication untuk mobile device -->
             {% if user.is_authenticated %}
                 <span class="block text-gray-800 px-3 py-2">Welcome, {{ user.username }}</span>
                 <a href="{% url 'main:logout' %}" class="block text-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
@@ -71,7 +72,7 @@
     </div>
 </nav>
 
-<!-- Script for Mobile Menu Toggle -->
+<!-- toggle untuk menu mobile device  -->
 <script>
     const menuButton = document.querySelector('.mobile-menu-button');
     const mobileMenu = document.querySelector('.mobile-menu');

@@ -7,20 +7,21 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-<!-- Add padding to the top of the content to prevent overlap with the navbar -->
+
+<!-- padding di bawah navbar -->
 <div class="min-h-screen bg-gray-50 p-6 flex flex-col relative" style="padding-top: 70px;">
   
-  <!-- Background Image -->
+  <!-- blurry background image -->
   <div class="absolute inset-0 z-0">
     <img src="{% static 'image/home.webp' %}" alt="Background" class="w-full h-full object-cover filter blur-lg opacity-60">
   </div>
 
-  <!-- Logo Section -->
+  <!-- logo -->
   <div class="flex justify-center mb-8 relative z-10">
     <img src="{% static 'image/logo-full.png' %}" alt="Logo" class="h-120 w-auto">
   </div>
 
-  <!-- Combined Info Card (on top of background) -->
+  <!-- info card untuk user yang sedang logged in -->
   <div class="flex justify-center mb-8 relative z-10">
     <div class="border-2 border-gray-300 bg-white bg-opacity-90 text-center p-6 w-full max-w-md rounded-lg shadow-lg">
       <h2 class="text-lg font-bold text-gray-800 mb-2">INFO USER</h2>
@@ -37,12 +38,14 @@
     </a>
 </div>
 
-  <!-- Product Cards Section -->
+    <!-- jika belum ada produk yang tersedia -->
   {% if not product_entries %}
     <div class="flex flex-col items-center justify-center min-h-[24rem] relative z-10">
       <img src="{% static 'image/no-product.png' %}" alt="No data" class="w-32 h-32 mb-4" />
       <p class="text-black text-lg">No products available</p>
     </div>
+
+    <!-- card product untuk menunjukkan setiap info produk yang ada -->
   {% else %}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
       {% for product_entry in product_entries %}
