@@ -156,3 +156,58 @@ Tidak semua cookies aman digunakan, karena cookies juga dapat dieksploitasi mela
           PRODUCTION = os.getenv("PRODUCTION", False)
           DEBUG = not PRODUCTION
      s. Menyimpan semua perubahan dan melakukan git add, commit, dan push untuk menyimpan perubahan juga di repository Github dan sekaligus push ke PWS.
+
+# Tugas 5 PBP
+
+# 1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+Urutan pengambilan CSS selector dipengaruhi oleh spesifisitas selector dan aturan cascade, khususnya urutan prioritasnya adalah: Inline CSS (contoh: <div style="color: red;">), ID Selector (#id), Class Selector (.class), attribute selector, dan pseudo-class (:hover, :focus), kemudian Tag/Type Selector (div, p, h1) memiliki prioritas paling rendah. Pengecualian untuk rule yang memiliki deklarasi !important maka akan diprioritaskan di atas rule yang lain.
+
+# 2. Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design!
+Responsive design artinya desain dan layout web dapat menyesuaikan dengan berbagai ukuran device. Hal ini penting untuk pengalaman pengguna (UX) agar tampilan website tetap nyaman dilihat dan digunakan dari device apapun. Hal ini juga memudahkan pengembang agar hanya perlu mengembangkan satu versi web yang dapat otomatis menyesuaikan dengan tiap device.
+
+# 3. Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+Margin: spacing di luar elemen yang memisahkan suatu elemen dengan elemen lain.
+Contoh: margin: 20px;
+
+Border: garis pembatas di sekeliling konten elemen, terletak di antara padding dan margin. 
+Contoh: border: 2px solid black;
+
+Padding: spacing di dalam elemen, di antara konten elemen dan border elemen.
+Contoh: padding: 10px;
+
+# 4. Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+Flexbox berguna untuk layout satu dimensi (baris atau kolom). Kegunaannya adalah untuk mengatur item dalam satu baris atau kolom untuk alignment, spacing, dan pengaturan ukuran otomatis berdasarkan ruang yang tersedia. Contoh kegunaannya adalah untuk mengatur elemen dalam navigation bar.
+
+Sedangkan grid layout adalah sistem layout dua dimensi (baris dan kolom). Kegunaannya adalah untuk memberikan kontrol lebih dalam membuat grid kompleks dengan banyak baris dan kolom yang bisa diatur secara eksplisit. Contoh kegunaannya adalah untuk mengatur layout halaman utama yang memiliki header, sidebar, dan konten utama.
+
+# 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+     a. Memastikan direktori sudah sesuai dengan yang ada di tutorial 
+     b. Memastikan file base.html sudah memiliki tag <meta name="viewport"> agar halaman web dapat menyesuaikan dengan ukuran mobile
+     c. Menghubungkan template Django dengan tailwind dengan menambahkan barisan kode <script src="https://cdn.tailwindcss.com"> </script> pada file base.html
+     d. Menambahkan fungsi edit_product pada file views.py, kemudian menambah import reverse dan HttpResponseRedirect
+     e. Membuat file edit_product.html di main/templates yang berisi tampilan dari page untuk edit detail product
+     f. Import fungsi edit_product yang telah dibuat dan mengatur pathnya di file urls.py
+     g. Menambahkan tombol edit product button di file main.html
+     h. Menambahkan fungsi delete_product pada file views.py, kemudian import fungsi dan mengatur pathnya di file urls.py
+     i. Menambahkan tombol delete product button di file main.html
+     j. Menjalankan perintah python manage.py runserver untuk mengecek apakah tombol edit product dan delete product sudah berfungsi dengan baik
+     k. Menambahkan navigation bar dengan membuat file navbar.html pada folder templates di root directory, yang akan mengatur tampilan dari navigation bar
+     l. Menambah {% include 'navbar.html' %} di file main.html, create_product_entry.html, dan edit_product.html agar navigation bar tetap tertampil di semua halaman web
+     m. Menambahkan konfigurasi static dengan barisan kode 'whitenoise.middleware.WhiteNoiseMiddleware' di variable MIDDLEWARE pada file settings.py agar file statis dapat diakses di deployment saya
+     n. Mengubah variable static pada file settings.py sebagai berikut:
+          STATIC_URL = '/static/'
+          if DEBUG:
+               STATICFILES_DIRS = [
+                    BASE_DIR / 'static' # merujuk ke /static root project pada mode development
+               ]
+          else:
+               STATIC_ROOT = BASE_DIR / 'static' # merujuk ke /static root project pada mode production
+     o. Mulai mengatur design dari web dengan pertama membuat file global.css di direktori static/css
+     p. Menambahkan barisan kode <link rel="stylesheet" href="{% static 'css/global.css' %}"/> pada file base.html untuk menghubungkan file global.css dengan template
+     q. Mengatur design web sesuai kemauan saya di file global.css, login.html, register.html, create_product_entry.html, dan edit_product.html
+     r. Membuat file card_info.html untuk menampilkan nama, npm, kelas, dan last log in untuk user yang sedang logged in
+     s. Membuat file card_prouct.html untuk menampilkan setiap product entry
+     t. Menambahkan foto no-product.png untuk ditampilkan di halaman utama saat belum ada product yang ditambahkan
+     u. Menambahkan barisan include pada file main.html untuk menampilkan semua berkas yang sudah dibuat 
+     v. Menambahkan image logo.png untuk di navigation bar, logo-full.png untuk di halaman utama, home.webp untuk background halaman utama
+     w. Melakukan git add, commit, dan push untuk menyimpan semua perubahan ke repository github dan sekaligus push ke pws.

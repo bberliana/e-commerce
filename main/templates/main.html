@@ -1,131 +1,54 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Bag Shopper</title>
+{% endblock meta %}
+
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Bag Shopper</title>
+{% include 'navbar.html' %}
+<!-- Add padding to the top of the content to prevent overlap with the navbar -->
+<div class="min-h-screen bg-gray-50 p-6 flex flex-col relative" style="padding-top: 70px;">
+  
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0">
+    <img src="{% static 'image/home.webp' %}" alt="Background" class="w-full h-full object-cover filter blur-lg opacity-60">
+  </div>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body
-        {
-            background-color: #add8e6;
-        }
-        .center {
-            font-family: Arial, Helvetica, sans-serif;
-            text-align: center;
-            
-        }
-        .p1 {
-            font-family: Arial, Helvetica, sans-serif;
-            margin-top: 5px;
-        }
-        .h1 {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 24px;
-        }
-        .h5 {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 18px;
-            margin-top: 15px;
-            margin-bottom: 5px;
-        }
-        .border{
-            border: 2px solid black; 
-            border-radius: 15px; 
-            padding: 20px; 
-            background-color: white; 
-            width: 300px; 
-            margin: 0 auto; 
-        }
-        img {
-            display: block;
-            max-width: 100%;
-            margin-top: 5px;
-        }
-        table {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 18px;
-            width: 100%;
-            border-collapse: collapse;
-            border: solid 1px #777; padding: 5px;
-            background: #226278; color:white; 
-        }
-        .button-container {
-            text-align: center; 
-            margin-top: 20px;
-        }
-        button {
-            background-color: #226278; 
-            color: white; 
-            padding: 10px 20px; 
-            border: none; 
-            border-radius: 10px; 
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            display: inline-block; /* Allows centering inside the container */
-        }
-        button:hover {
-            background-color: #333;
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body>
-    <h1 class="center">Welcome to Bag Shopper</h1>
-    <p class="center">Rania Berliana</p>
-    <p class="center">PBP B</p>
+  <!-- Logo Section -->
+  <div class="flex justify-center mb-8 relative z-10">
+    <img src="{% static 'image/logo-full.png' %}" alt="Logo" class="h-120 w-auto">
+  </div>
 
-    {% if not product_entries %}
-    <h1 class="h1">Belum ada data product pada bag shopper.</h1>
-    {% else %}
-    <table>
-    {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
-    {% endcomment %} 
-    {% for product_entry in product_entries %}
-    <tr>
-        <div class="border">
-        <img src=https://shorturl.at/xBpJI alt="Bag Image">   
-        <h1 class="h1">Product Details</h1>
-
-        <h5 class="h5">Name: </h5>
-        <p class="p1">{{product_entry.name}}</p>
-
-        <h5 class="h5">Price: </h5>
-        <p class="p1">{{product_entry.price}}<p>
-
-        <h5 class="h5">Description: </h5>
-        <p class="p1">{{product_entry.description}}<p>
-
-        <h5 class="h5">Size: </h5>
-        <p class="p1">{{product_entry.size}}<p>
-
-        <h5 class="h5">Color: </h5>
-        <p class="p1">{{product_entry.color}}<p>
-        </div>
-    </tr>
-    {% endfor %}
-    </table>
-    {% endif %}
-
-    <br />
-
-    <div class="button-container">
-        <a href="{% url 'main:create_product_entry' %}">
-            <button>Add New Product Entry</button>
-        </a>
+  <!-- Combined Info Card (on top of background) -->
+  <div class="flex justify-center mb-8 relative z-10">
+    <div class="border-2 border-gray-300 bg-white bg-opacity-90 text-center p-6 w-full max-w-md rounded-lg shadow-lg">
+      <h2 class="text-lg font-bold text-gray-800 mb-2">INFO USER</h2>
+      <p class="text-sm text-gray-600 mb-1"><strong>NPM:</strong> {{ npm }}</p>
+      <p class="text-sm text-gray-600 mb-1"><strong>Name:</strong> {{ name }}</p>
+      <p class="text-sm text-gray-600 mb-1"><strong>Class:</strong> {{ class }}</p>
+      <p class="text-sm text-gray-600 mb-1"><strong>Last login:</strong> {{ last_login }}</p>
     </div>
+  </div>
 
-    <a href="{% url 'main:logout' %}">
-        <button>Logout</button>
-     </a>
+  <div class="flex justify-between items-center mb-6 relative z-10">
+    <a href="{% url 'main:create_product_entry' %}" class="bg-[#fe9d79] hover:bg-[#ff8362] text-white font-bold py-2 px-4 rounded-lg transition transform hover:scale-105">
+      Add New Product Entry
+    </a>
+</div>
 
-    <h5>Sesi terakhir login: {{ last_login }}</h5>
-
-</body>
-</html>
+  <!-- Product Cards Section -->
+  {% if not product_entries %}
+    <div class="flex flex-col items-center justify-center min-h-[24rem] relative z-10">
+      <img src="{% static 'image/no-product.png' %}" alt="No data" class="w-32 h-32 mb-4" />
+      <p class="text-black text-lg">No products available</p>
+    </div>
+  {% else %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+      {% for product_entry in product_entries %}
+        {% include 'card_product.html' with product_entry=product_entry %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
 {% endblock content %}
