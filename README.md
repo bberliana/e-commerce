@@ -211,3 +211,43 @@ Sedangkan grid layout adalah sistem layout dua dimensi (baris dan kolom). Keguna
      u. Menambahkan barisan include pada file main.html untuk menampilkan semua berkas yang sudah dibuat 
      v. Menambahkan image logo.png untuk di navigation bar, logo-full.png untuk di halaman utama, home.webp untuk background halaman utama
      w. Melakukan git add, commit, dan push untuk menyimpan semua perubahan ke repository github dan sekaligus push ke pws.
+
+# Tugas 6 PBP
+
+# 1. Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+a. JavaScript bisa digunakan untuk fullstack development karena dapat mengembang back-end maupun front-end.
+b. Mempermudah manipulasi Document Object Model (DOM), seperti mengubah konten atau elemen HTML secara real-time sesuai aksi pengguna.
+c. JavaScript juga dapat digunakan untuk validasi data input pengguna sebelum data dikirim ke server, sehingga mengurangi beban server dan meningkatkan performa.
+d. JavaScript memungkinkan aplikasi web untuk fetch dan send data dengan server secara asynchronous (AJAX) tanpa harus memuat ulang halaman.
+
+# 2. Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+await digunakan agar kode yang memanggil fetch() menunggu hingga promise selesai atau resolve. Hal ini memastikan kita dapat bekerja dengan hasil fetch() secara langsung setelah data tersedia. Jika await tidak digunakan, kode setelah fetch() bisa berjalan sebelum data dari server diterima, yang dapat menyebabkan kesalahan jika kita mencoba mengakses data yang belum tersedia.
+
+# 3. Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+Pada AJAX, token CSRF tidak selalu dikirimkan dengan cara yang sama seperti di form HTML biasa. Sehingga, decorator csrf_exempt digunakan untuk mengecualikan view tersebut dari pemeriksaan CSRF, agar memungkinkan AJAX POST berfungsi tanpa memerlukan token CSRF.
+
+# 4.Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+Pembersihan data input di backend dilakukan untuk meningkatkan keamanan dan integritas data dengan memastikan bahwa data yang diterima oleh server aman dan sesuai format yang diharapkan. Walaupun frontend dapat melakukan validasi dan pembersihan, kode frontend dapat dimanipulasi oleh pengguna sehingga tidak memberi keamanan sepenuhnya dan tidak bisa diandalkan sendiri.
+
+# 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+a. Tambahkan pesan eror jika user yang mencoba untuk login memasukkan username atau password yang salah
+b. Membuat fungsi add product entry by AJAX di file views.py, kemudian menambahkan path untuk routingnya di file urls.py
+c. Mengubah file views.py dan main.html agar dapat menampilkan product entry dengan fungsi fetch() dengan cara menghapus kode sebelumnya yang mengambil object dari product entry, kemudian menambahkan script berikut di file main.html:
+     <script>
+     async function getMoodEntries(){
+          return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+     }
+     </script>
+d. Menambah fungsi refresh product entries di script tersebut yang dapat refresh data product secara asynchronus, sehingga tidak perlu refresh page
+e. Menambahkan kode pada file main.html untuk menggunakan modal tailwind untuk menampilkan form yang memungkinkan user untuk menambahkan product entry by AJAX
+f. Menambahkan fungsi showModal dan hideModal ke script di file main.html agar modal dapat berfungsi
+g. Menambahkan tombol add product entry by AJAX
+h. Menambahkan fungsi addProductEntry pada script tersebut untuk menambahkan data input ke basis data secara AJAX (asynchronus)
+i. Menambahkan event listener untuk menjalankan fungsi addProductEntry
+j. Menambahkan script_tags pada method get di fungsi add product entry by AJAX di file views.py agar tag HTML dihilangkan dari data yang dikirimkan user
+k. Tambahkan method clean untuk setiap input (name, price, description, size, color) di class ProductEntryForm di file forms.py
+l. Menggunakan library DOMPurify dengan menambahkan script berikut di file main.html:
+     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+     Kemudian memanggil kode DOMPurify.sanitize pada fungsi refresh product entries untuk setiap input (name, price, description, size, color)
+m. Melakukan git add, commit, dan push untuk menyimpan semua perubahan ke repository github dan sekaligus push ke pws
+

@@ -3,6 +3,8 @@
 
 {% block meta %}
 <title>Bag Shopper</title>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+
 {% endblock meta %}
 
 {% block content %}
@@ -33,25 +35,197 @@
   </div>
 
   <div class="flex justify-between items-center mb-6 relative z-10">
-    <a href="{% url 'main:create_product_entry' %}" class="bg-[#fe9d79] hover:bg-[#ff8362] text-white font-bold py-2 px-4 rounded-lg transition transform hover:scale-105">
+    <a href="{% url 'main:create_product_entry' %}" class="bg-[#fe9d79] hover:bg-[#ff8362] text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 mx-4 ">
       Add New Product Entry
     </a>
-</div>
 
-    <!-- jika belum ada produk yang tersedia -->
-  {% if not product_entries %}
-    <div class="flex flex-col items-center justify-center min-h-[24rem] relative z-10">
-      <img src="{% static 'image/no-product.png' %}" alt="No data" class="w-32 h-32 mb-4" />
-      <p class="text-black text-lg">No products available</p>
-    </div>
+    <button data-modal-target="crudModal" data-modal-toggle="crudModal" class="btn bg-[#ff8362] hover:bg-[#fe9d79] text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105" onclick="showModal();">
+      Add New Product Entry by AJAX
+    </button>
+  </div>
 
-    <!-- card product untuk menunjukkan setiap info produk yang ada -->
-  {% else %}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-      {% for product_entry in product_entries %}
-        {% include 'card_product.html' with product_entry=product_entry %}
-      {% endfor %}
+
+  <div id="product_entry_cards"></div>
+  <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div id="crudModalContent" class="bg-white rounded-lg shadow-lg w-full max-w-lg mx-auto p-6 transform scale-95 opacity-0 transition-transform transition-opacity duration-300">
+      <!-- Modal header -->
+      <div class="flex items-center justify-between p-4 border-b rounded-t">
+        <h3 class="text-xl font-semibold text-gray-900">
+          Add New Product Entry
+        </h3>
+        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="closeModalBtn">
+          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+  
+      <!-- Modal body -->
+      <div class="px-6 py-4 space-y-6 form-style">
+        <form id="productEntryForm">
+          <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter your product name" required>
+          </div>
+          <div class="mb-4">
+            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+            <input type="text" id="price" name="price" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Product price" required>
+          </div>
+          <div class="mb-4">
+            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="description" name="description" rows="3" class="mt-1 block w-full h-24 resize-none border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Product description" required></textarea>
+          </div>
+          <div class="mb-4">
+            <label for="size" class="block text-sm font-medium text-gray-700">Size</label>
+            <input type="text" id="size" name="size" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Product size" required>
+          </div>
+          <div class="mb-4">
+            <label for="color" class="block text-sm font-medium text-gray-700">Color</label>
+            <input type="text" id="color" name="color" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Product color" required>
+          </div>
+        </form>
+      </div>
+  
+      <!-- Modal footer -->
+      <div class="flex justify-end space-x-2 p-4 border-t">
+        <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton">Cancel</button>
+        <button type="submit" id="submitProductEntry" form="productEntryForm" class="bg-[#fe9d79] hover:bg-[#ff8362] text-white font-bold py-2 px-4 rounded-lg">Save</button>
+      </div>
     </div>
-  {% endif %}
-</div>
+  </div>
+  
+  
+
+<script>
+  function addProductEntry() {
+    fetch("{% url 'main:add_product_entry_ajax' %}", {
+      method: "POST",
+      body: new FormData(document.querySelector('#productEntryForm')),
+    })
+    .then(response => refreshProductEntries())
+
+    document.getElementById("productEntryForm").reset(); 
+    document.querySelector("[data-modal-toggle='crudModal']").click();
+
+    return false;
+  }
+
+  async function getProductEntries(){
+      return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+  }
+
+  async function refreshProductEntries() {
+    document.getElementById("product_entry_cards").innerHTML = "";
+    document.getElementById("product_entry_cards").className = "";
+    const productEntries = await getProductEntries();
+    let htmlString = "";
+    let classNameString = "";
+
+    if (productEntries.length === 0) {
+        classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+        htmlString = `
+            <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                <img src="{% static 'image/no-product.png' %}" alt="no product" class="w-32 h-32 mb-4"/>
+                <p class="text-center text-gray-600 mt-4">Belum ada data produk pada bag shopper.</p>
+            </div>
+        `;
+    }
+    else {
+        classNameString = "columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full"
+        productEntries.forEach((item) => {
+        const name = DOMPurify.sanitize(item.fields.name);
+        const price = DOMPurify.sanitize(item.fields.price);
+        const description = DOMPurify.sanitize(item.fields.description);
+        const size = DOMPurify.sanitize(item.fields.size);
+        const color = DOMPurify.sanitize(item.fields.color);
+        
+        htmlString += `
+          <div class="relative shadow-lg rounded-lg overflow-hidden bg-white transform transition duration-300 hover:scale-105">
+            <!-- Product Image Section -->
+            <div class="relative">
+              <img src="{% static 'image/bag.webp' %}" alt="Bag" class="w-full h-96 object-cover">
+            </div>
+            <!-- Product Details -->
+            <div class="p-4">
+              <!-- Product Name -->
+              <h3 class="font-bold text-lg text-gray-800 mb-1">${name}</h3>
+
+              <!-- Color, Size, and Description -->
+              <p class="text-gray-600 text-sm mb-1"><strong>Color:</strong> ${color}</p>
+              <p class="text-gray-600 text-sm mb-1"><strong>Size:</strong> ${size}</p>
+              <p class="text-gray-600 text-sm mb-2"><strong>Description:</strong> ${description}</p>
+
+              <!-- Price Section -->
+              <div class="flex items-center justify-between mt-4">
+                <span class="text-gray-500 text-sm">Price</span>
+                <span class="text-gray-800 font-bold text-lg">Rp ${price}</span>
+              </div>
+            </div>
+
+            <!-- Action buttons (edit/delete) -->
+            <div class="absolute top-2 right-2 flex space-x-1">
+              <!-- Edit button -->
+              <a href="/edit-product/${item.pk}" class="text-gray-500 hover:text-gray-700 transition hover:scale-110 duration-300">
+                <svg fill="#000000" height="19px" width="19px" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xml:space="preserve">
+                  <g>
+                    <g>
+                      <path d="M403.914,0L54.044,349.871L0,512l162.128-54.044L512,108.086L403.914,0z M295.829,151.319l21.617,21.617L110.638,379.745
+                              l-21.617-21.617L295.829,151.319z M71.532,455.932l-15.463-15.463l18.015-54.043l51.491,51.491L71.532,455.932z M153.871,422.979
+                              l-21.617-21.617l206.809-206.809l21.617,21.617L153.871,422.979z M382.297,194.555l-64.852-64.852l21.617-21.617l64.852,64.852
+                              L382.297,194.555z M360.679,86.468l43.234-43.235l64.853,64.853l-43.235,43.234L360.679,86.468z"/>
+                    </g>
+                  </g>
+                </svg>
+              </a>
+              <!-- Delete button -->
+              <a href="/delete/${item.pk}" class="text-gray-500 hover:text-gray-700 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        `;
+      });
+    }
+    document.getElementById("product_entry_cards").className = classNameString;
+    document.getElementById("product_entry_cards").innerHTML = htmlString;
+}
+refreshProductEntries();
+
+const modal = document.getElementById('crudModal');
+const modalContent = document.getElementById('crudModalContent');
+
+function showModal() {
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+
+    modal.classList.remove('hidden'); 
+    setTimeout(() => {
+      modalContent.classList.remove('opacity-0', 'scale-95');
+      modalContent.classList.add('opacity-100', 'scale-100');
+    }, 50); 
+}
+
+function hideModal() {
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+
+    modalContent.classList.remove('opacity-100', 'scale-100');
+    modalContent.classList.add('opacity-0', 'scale-95');
+
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 150); 
+}
+
+document.getElementById("cancelButton").addEventListener("click", hideModal);
+document.getElementById("closeModalBtn").addEventListener("click", hideModal);
+
+document.getElementById("productEntryForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    addProductEntry();
+  })
+</script>
 {% endblock content %}
